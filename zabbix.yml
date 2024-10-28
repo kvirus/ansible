@@ -1,0 +1,55 @@
+---
+- name: zabbix and mysql
+  hosts: docker1
+  become: true
+  tasks:
+    - name: create dir
+      file:
+        path: "/home/mysql"
+        state: directory
+        mode: 0777
+
+    - name: Install Mysql
+      docker_container:
+        name: mysql-zabbix
+        image: mysql
+        state: started
+        env:
+          MYSQL_ROOT_PASSWORD: zireael
+          MYSQL_DATABASE: zabbix
+          MYSQL_USER: zabbix
+          MYSQL_PASSWORD: zabbix
+        volumes:
+          - /home/mysql:/var/lib/mysql
+
+    - name: Install Zabbix srv
+      docker_container:
+        name: zabbix
+        image: zabbix/zabbix-server-mysql:6.0-ubuntu-latest
+        state: started
+        env:
+          DB_SERVER_HOST: mysql-zabbix
+          MYSQL_USER: zabbix
+          MYSQL_PASSWORD: zabbix
+          MYSQL_DATABASE: zabbix
+          DB_SERVER_PORT: "33060"
+        ports:
+          - "10051:10051"
+
+
+    - name: Install Zabbix web
+      docker_container:
+        name: zabbix-web
+        image: zabbix/zabbix-server-mysql:6.0-ubuntu-latest
+        state: started
+        env:
+          DB_SERVER_HOST: mysql-zabbix
+          MYSQL_USER: zabbix
+          MYSQL_PASSWORD: zabbix
+          MYSQL_DATABASE: zabbix
+          ZBX_SERVER_HOST: zabbix
+          DB_SERVER_PORT: "33060"
+          PHP_TZ: "Europe/Moscow"
+        ports:
+          - "8880:8080"
+          - "8881:80"

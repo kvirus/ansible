@@ -1,0 +1,16 @@
+---
+- name: install programs
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - "{{ apt1 }}"
+    - "{{ apt2 }}"
+
+- name: copy file
+  template:
+    src: /home/newfile.txt
+    dest: /home
+    mode: 0777
+  notify:
+    - Restart mysql

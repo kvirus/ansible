@@ -1,0 +1,12 @@
+[linux]
+ans1 ansible_host=10.100.2.86 ansible_user=sradmin ansible_ssh_pass=Zireael1! ansible_become_pass=Zireael1!
+#ans2 ansible_host=10.100.2.87 ansible_user=sradmin ansible_ssh_pass=Zireael1!
+[linux1]
+ans2 ansible_host=10.100.2.87 ansible_user=root ansible_ssh_private_key_file=/root/.ssh/id_rsa
+[docker1]
+doc ansible_host=10.100.2.66 ansible_user=root ansible_ssh_private_key_file=/root/.ssh/id_rsa
+[gitlab]
+git ansible_host=10.100.2.90 ansible_user=root ansible_ssh_private_key_file=/root/.ssh/id_rsa
+[runners]
+run1 ansible_host=10.100.2.91 ansible_user=root ansible_ssh_private_key_file=/root/.ssh/id_rsa
+

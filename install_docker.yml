@@ -1,0 +1,12 @@
+---
+- name: New cotaoner docker
+  hosts: docker1
+  become: true
+  tasks:
+    - name: install httpd
+      docker_container:
+        name: httpd
+        image: httpd
+        state: absent
+        ports:
+          - "7777:80"

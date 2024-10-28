@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  
+  testdb:
+    image: mysql
+    environment:
+       MYSQL_ROOT_PASSWORD: zireael
+       MYSQL_DATABASE: zabbix
+       MYSQL_USER: zabbix
+       MYSQL_PASSWORD: zabbix
+    volumes:
+      - testbd:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    environment:
+      ADMINER_DEFAULT_SERVER: testdb
+    ports:
+      - "8885:8080"
+    depends_on:
+      - testdb
+
+volumes:
+  testbd:

@@ -1,0 +1,4 @@
+---
+# defaults file for f_setup
+apt1: htop
+apt2: tree

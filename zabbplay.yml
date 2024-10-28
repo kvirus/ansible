@@ -1,0 +1,13 @@
+---
+- name: zabbix-playbook
+  hosts: docker1
+  tasks:
+    - name: copy file
+      copy:
+        src: /home/ansible/zab-comp.yml
+        dest: /home/zabb/docker-compose.yml
+
+    - name: start compose
+      docker_compose:
+        project_src: /home/zabb
+        state: present

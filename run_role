@@ -1,0 +1,7 @@
+---
+- name: Docekr role
+  hosts: runners
+  become: yes
+  roles:
+    - role: riemers.ansible-gitlab-runner
+      ignore_errors: yes

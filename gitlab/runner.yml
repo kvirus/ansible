@@ -1,0 +1,16 @@
+---
+- name: install Gaitlab
+  hosts: gitlab
+  become: yes
+  vars:
+    gitlab_external_url: "http://gitlab"
+  tasks:
+
+    - name: Добавление репозитория GitLab
+      shell: |
+        curl -L "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh" | sudo bash
+
+    - name: Установка GitLab runer
+      apt:
+        name: gitlab-runner
+        state: present

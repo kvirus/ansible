@@ -1,0 +1,7 @@
+---
+- name: Docekr role
+  hosts: runners
+  become: yes
+  roles:
+    - role: waal70.docker
+      ignore_errors: yes

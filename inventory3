@@ -1,0 +1,6 @@
+
+[linux]
+ans1
+#ans2 ansible_host=10.100.2.87 ansible_user=sradmin ansible_ssh_pass=Zireael1!
+[linux1]
+ans2

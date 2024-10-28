@@ -1,0 +1,26 @@
+- name: test blocks
+  hosts: all
+  become: yes
+
+  vars:
+
+  tasks:
+  - block:
+    - name: Install
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - tree
+        - nmon
+        - htop
+        - net-tools
+
+    - name: create folder
+      command: mkdir /home/newdir
+
+    - name: new folder 2
+      file:
+        path: /home/dir2
+        state: directory
+    when: ansible_hostname == "k8stm"

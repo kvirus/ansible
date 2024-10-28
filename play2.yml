@@ -1,0 +1,33 @@
+- name: Ping Servers
+  hosts: all
+  become: yes
+
+  vars:
+    pgs:
+      - htop
+      - tree
+      - rsync
+  
+  tasks:
+  
+  - name: ping task
+    ping:
+
+#  - name: Update perository
+#    apt:
+#      update_cache: yes
+
+#  - name: Upgrade
+#    apt:
+#      upgrade: yes
+
+  - name: install apache2
+    apt:
+      name: '{{ pgs }}'
+      state: present
+
+#  - name: Copy
+#    copy:
+#      src: /home/ansible/inventory
+#      dest: /home/123
+#      mode: 0777

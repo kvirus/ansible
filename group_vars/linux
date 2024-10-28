@@ -1,0 +1,6 @@
+ansible_host: 10.100.2.86
+ansible_user: sradmin
+ansible_ssh_pass: Zireael1!
+ansible_become_pass: Zireael1!
+dev: Man1
+user: MegaSuperUser

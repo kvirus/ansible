@@ -1,0 +1,31 @@
+- name: new user
+  hosts: all
+  become: yes
+
+  tasks:
+#  - name: create new user
+ #   user:
+#      name: "{{ item.name  }}"
+#      password: "{{ item.pass }}"
+#      shell: /bin/bash
+#      state: present
+#    loop:
+#      - { name: 'new1', pass: '123'}
+#      - { name: 'new2', pass: '123'} 
+
+  - name: pass the vars
+    command: id newman
+    register: result
+
+  - name: debug
+    debug:
+      var: result.stdout
+
+  - name: ping command
+    command: ping -c 4 8.8.8.8
+    register: pings
+
+  - name: debug1
+    debug:
+      var: pings.stdout
+      msg: "Нормас ... но это не точно"

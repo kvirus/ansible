@@ -1,0 +1,45 @@
+---
+- name: install Gaitlab
+  hosts: gitlab
+  become: yes
+  vars:
+    gitlab_external_url: "http://gitlab"
+  tasks:
+    - name: Insatall soft
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - net-tools
+        - mc
+        - ca-certificates
+        - curl
+        - tzdata
+        - perl
+      tags: dependencies
+
+    - name: Добавление репозитория GitLab
+      apt_key:
+        url: https://packages.gitlab.com/gitlab/gitlab-ce/gpgkey
+        state: present
+
+    - name: Добавление репозитория GitLab
+      apt_repository:
+        repo: "deb https://packages.gitlab.com/gitlab/gitlab-ce/ubuntu/ {{ ansible_distribution_release }} main"
+        state: present
+
+    - name: Установка GitLab
+      apt:
+        name: gitlab-ce
+        state: present
+      notify:
+        - Configure GitLab
+      
+    - name: Обновление списка пакетов
+      apt:
+        update_cache: yes
+      tags: update
+
+  handlers:
+    - name: Configure GitLab
+      command: /opt/gitlab/bin/gitlab-ctl reconfigure

@@ -1,0 +1,35 @@
+-
+  name: Install and config Mysql
+  hosts: linux
+  become: yes
+
+  vars:
+    db_name: testdb
+    mysql_user_name: root
+    mysql_user_password: root 
+
+  tasks:
+    - name: Install pkgs
+      vars:
+        packages:
+         - mc
+      apt: name='{{  packages  }}' state=present
+
+    - name: Install Mysql
+      vars:
+        packages:
+          - mysql-server
+      apt: name='{{  packages  }}' state=present
+
+    - name: Start mysql server
+      service: name=mysql.service state=started
+
+    - name: Conf DataBase
+      mysql_db: name='{{  db_name  }}' state=present
+
+    - name: Crate DB user
+      mysql_user:
+        name: '{{  mysql_user_name  }}'
+        password: '{{  mysql_user_password  }}'
+        priv: '{{  db_name  }}.*:ALL'
+        state: present

@@ -1,0 +1,11 @@
+- name: install net-tools & htop
+  hosts: linux
+  become: true
+  tasks:
+    - name: install
+      apt:
+        name: "{{item}}"
+        state: present
+      loop:
+        - net-tools
+        - htop

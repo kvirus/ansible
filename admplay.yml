@@ -1,0 +1,30 @@
+---
+- name: zabbix-playbook
+  hosts: docker1
+  tasks:
+    - name: create directory
+      file:
+        path: /home/adminer
+        state: directory
+        mode: "0777"
+      register: cdir
+
+    - name: debug dir
+      debug:
+        var: cdir
+        #msg: "{{ cdir.stdout }}"
+
+    - name: copy file
+      copy:
+        src: /home/ansible/adminer_test.yml
+        dest: /home/adminer/docker-compose.yml
+
+    - name: start compose
+      docker_compose:
+        project_src: /home/adminer
+        state: present
+      register: ccompose
+
+    - name: debug compose
+      debug:
+        var: ccompose

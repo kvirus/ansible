@@ -1,0 +1,5 @@
+- name: testrole
+  hosts: docker1
+  become: yes
+  roles:
+    - f_setup
