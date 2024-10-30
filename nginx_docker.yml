@@ -1,0 +1,15 @@
+---
+- name: Nginx under docker
+  hosts: docker1
+  become: True
+  tasks:
+    - name: Start Nginx container
+      docker_container:
+        name: nginx_container
+        image: nginx
+        state: started
+        ports:
+          - "80:80"
+        restart_policy: always
+
+#123
