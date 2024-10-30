@@ -1,0 +1,29 @@
+---
+- name: Nginx site HTML with copy documents
+  hosts: docker1
+  become: true
+  vars:
+    origin_path: /home/ansible/nginx/html
+    remote_path: /home/html
+
+  tasks:
+    - name: Create dir
+      file:
+        path: "{{ remote_path }}"
+        state: directory
+
+    - name: Copy files
+      copy:
+        src: "{{ origin_path }}/"
+        dest: "{{ remote_path }}/"
+        mode: preserve
+
+    - name: Copy compose
+      copy:
+        src: "/home/ansible/nginx/docker-compose.yml"
+        dest: "{{ remote_path }}/"
+    
+    - name: run docker-compose
+      command: docker-compose up -d
+      args:
+        chdir: "{{ remote_path }}"

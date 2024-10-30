@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  web:
+    image: nginx
+    container_name: site-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /home/html:/usr/share/nginx/html  # Убедитесь, что папка html существует в проекте
