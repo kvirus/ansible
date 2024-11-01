@@ -1,0 +1,33 @@
+---
+- name: bot for kubernetes through ansible
+  hosts: kubmaster
+  become: True
+  tasks:
+
+
+    - name: create dir for worker
+      file:
+        path: /home/bot
+        state: directory
+        mode: '0777'
+      delegate_to: worker1
+
+    - name: copy py script
+      copy:
+        src: /home/ansible/kubbot/py/bot.py
+        dest: /home/bot/bot.py
+      delegate_to: worker1
+
+    - name: create dir for kube deploy
+      file:
+        path: /home/manifest/
+        state: directory
+        mode: '0777'
+
+    - name: copy manifest
+      copy:
+        src: /home/ansible/kubbot/manifest/telbot.yml
+        dest: /home/manifest/telbot.yml
+
+    - name: Deploy the Python app in Kubernetes
+      command: kubectl apply -f /home/manifest/telbot.yml

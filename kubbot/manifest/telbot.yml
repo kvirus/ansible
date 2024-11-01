@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-bot-deploy
+spec:
+  replicas: 1  # Количество реплик
+  selector:
+    matchLabels:
+      app: python-bot
+  template:
+    metadata:
+      labels:
+        app: python-bot
+    spec:
+      containers:
+        - name: python-bot-container
+          image: kvirus2/bot:1.0.0
+          command: ["python3", "/app/bot.py"]  # Запуск скрипта bot.py
+          volumeMounts:
+            - mountPath: /app
+              name: bot-data  # Монтируемый том
+      volumes:
+        - name: bot-data
+          hostPath:
+            path: /home/bot  # Путь на хосте
+            type: Directory
