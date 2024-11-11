@@ -1,0 +1,34 @@
+---
+- name: install site2 on docker1
+  hosts: docker1
+  become: True
+  tasks:
+    - name: create volume site
+      docker_volume:
+        name: site
+        state: present
+
+    - name: copy work files
+      ansible.builtin.copy:
+        src: /home/ansible/newsite/site2/
+        dest: /var/lib/docker/volumes/site/_data
+        mode: 0777
+
+    - name: build docker
+      docker_image:
+        source: build
+        build:
+          path: /home/newsite/site2
+        name: site2
+        state: present
+
+    - name: start docker container site2
+      docker_container:
+        name: site2
+        image: site2
+        volumes:
+          - site:/usr/src/app
+        state: started
+        ports:
+          - "8000:8000"
+        restart_policy: always

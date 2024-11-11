@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  services:
+    site:
+      image: django:latest
+      container_name: site
+      ports:
+      - "8000:8000"
+      volumes: /home/site2
+      restart: always
