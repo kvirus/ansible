@@ -1,0 +1,28 @@
+---
+- name: bot for kubernetes through ansible
+  hosts: kubmaster
+  become: True
+
+  - name: create dir for dest
+    file:
+      path: /home/bot
+      state: directory
+      mode: '0777'
+
+  - name: copy py script
+    copy:
+      src: /home/ansible/kubbot/py/bot.py
+      dest: /home/bot/bot.py
+
+   - name: create dir for dest
+    file:
+      path: /home/bot
+      state: directory
+      mode: '0777'
+
+  - name: copy manifest
+    copy:
+      src: /home/manifest/telbot.yml
+      dest: /home/bot/bot.py
+
+### copy and run manifest

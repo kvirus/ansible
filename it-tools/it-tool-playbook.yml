@@ -1,0 +1,12 @@
+---
+- name: It-tools install
+  hosts: docker1
+  become: True
+  tasks:
+    - name: It tools
+      docker_container:
+        name: It_tools
+        image: "corentinth/it-tools:latest"
+        state: started
+        restart_policy: always
+        ports: "8080:80"
