@@ -1,0 +1,23 @@
+---
+- name: portainer
+  hosts: docker1
+  become: True
+
+  tasks:
+    - name: new volume
+      docker_volume:
+        name: portainer_data
+        state: present
+
+    - name: start portainer
+      docker_container:
+        name: portainer
+        image: "portainer/portainer-ce:2.21.4"
+        state: started
+        volumes:
+          - portainer_data:/data
+          - /var/run/docker.sock:/var/run/docker.sock
+        restart_policy: always
+        ports:
+          - "8000:8000"
+          - "9443:9443"

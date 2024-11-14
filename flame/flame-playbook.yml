@@ -1,0 +1,21 @@
+---
+- name: It-tools install
+  hosts: docker1
+  become: True
+  tasks:
+    - name: volume for flame
+      docker_volume:
+        name: flame
+        state: present
+    
+    - name: Flame
+      docker_container:
+        name: flame
+        image: "pawelmalak/flame"
+        env:
+          PASSWORD: "flame"
+        state: started
+        volumes:
+          - flame:/app/data
+        restart_policy: always
+        ports: "5005:5005"
