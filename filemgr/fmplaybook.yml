@@ -1,0 +1,49 @@
+---
+- name: File Mgr  Ounecloude
+  hosts: fm
+  become: True
+  tasks:
+
+    - name: install aplications
+      apt:
+         name: "{{ item }}"
+         state: present
+         update_cache: yes
+      loop:
+        - mc
+        - net-tools
+        - python3-pip
+
+    - name: Docker pip
+      pip:
+        name: docker
+
+    - name: role Docker
+      include_role:
+        name: geerlingguy.docker
+
+    - name: install Portainer
+      docker_container:
+        name: Portainer
+        image: portainer/portainer
+        ports:
+          - "9000:9000"
+          - "8000:8000"
+          - "9443:9443"
+        state: started
+        restart_policy: always
+
+    - name: New volune for OwnCloude
+      docker_volume:
+        name: owncloud
+
+    - name: Owncloud
+      docker_container:
+        name: Owncloud
+        image: owncloud/server:latest
+        ports:
+          - "8800:8080"
+        state: started
+        restart_policy: always
+        volumes:
+          - owncloud:/mnt/data

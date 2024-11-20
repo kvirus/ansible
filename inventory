@@ -15,3 +15,6 @@ kmaster ansible_host=10.100.2.82 ansible_user=root ansible_ssh_private_key_file=
 [workers]
 worker1 ansible_host=10.100.2.85 ansible_user=root ansible_ssh_private_key_file=/root/.ssh/id_rsa
 #kmaster ansible_host=10.100.2.82 ansible_user=root ansible_ssh_private_key_file=/root/.ssh/id_rsa
+
+[fm]
+filemgr1 ansible_host=10.100.2.92 ansible_user=root ansible_ssh_private_key_file=/root/.ssh/id_rsa
