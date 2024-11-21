@@ -1,0 +1,22 @@
+---
+- name: File Mgr  Ounecloude
+  hosts: fm
+  become: True
+  tasks:
+
+    - name: New volune for OwnCloude
+      docker_volume:
+        name: owncloud
+
+    - name: Owncloud
+      docker_container:
+        name: Owncloud
+        image: owncloud/server:latest
+        ports:
+          - "8800:8080"
+        state: started
+        restart_policy: always
+        volumes:
+          - owncloud:/mnt/data
+        env:
+          OWNCLOUD_TRUSTED_DOMAINS: "10.100.2.31, x.x.x.xxx, 10.100.x.x, 10.100.x.xxx, 10.100.2.145"

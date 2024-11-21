@@ -1,0 +1,57 @@
+---
+- name: File Mgr  Ounecloude
+  hosts: fm
+  become: True
+  tasks:
+
+
+
+    - name: volume for nextcloud
+      docker_volume:
+        name: nextcloud
+
+    - name: volume bd
+      docker_volume:
+        name: bd
+
+    - name: network
+      community.docker.docker_network:
+        name: nextnetwork
+        driver: bridge
+        state: present
+
+    - name: mariadb
+      docker_container:
+        name: mariadb
+        image: mariadb:latest
+        state: started
+        restart_policy: always
+        volumes:
+          - bd:/var/lib/mysql
+        ports:
+          - "3306:3306"
+        networks:
+          - name: nextnetwork
+        env:
+          MARIADB_USER: nextcloud
+          MARIADB_PASSWORD: nextcloud
+          MARIADB_DATABASE: nextcloud
+          MARIADB_ROOT_PASSWORD: root
+
+    - name: nextcloud
+      docker_container:
+        name: nextcloud
+        image: nextcloud
+        ports:
+          - "8880:80"
+        state: started
+        restart_policy: always
+        volumes:
+          - nextcloud:/var/www/html
+        networks:
+          - name: nextnetwork
+        env:
+          MYSQL_DATABASE: nextcloud
+          MYSQL_USER: nextcloud
+          MYSQL_PASSWORD: nextcloud
+          MYSQL_HOST: mariadb
