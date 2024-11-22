@@ -1,0 +1,24 @@
+---
+- name: Nging GUI
+  hosts: fm
+  become: True
+  tasks:
+
+    - name: NginxGui volume
+      docker_volume:
+        name: ngui
+
+    - name: NginxGui Docker
+      docker_container:
+        name: Nggui
+        image: ddsderek/nginxwebui
+        volumes:
+          - 'ngui:/home/nginxWebUI'
+        env:
+          BOOT_OPTIONS: "--server.port=8080"
+          PUID: "1000"
+          PGID: "1000"
+        state: started
+        ports:
+          - "7070:8080"
+        restart_policy: always
