@@ -21,7 +21,7 @@
 #    apt:
 #      upgrade: yes
 
-  - name: install apache2
+  - name: install apache2.
     apt:
       name: '{{ pgs }}'
       state: present
