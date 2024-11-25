@@ -20,5 +20,6 @@
           PGID: "1000"
         state: started
         ports:
+          - "9999:80"
           - "7070:8080"
         restart_policy: always

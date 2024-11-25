@@ -1,0 +1,61 @@
+---
+- name: File Mgr  Ounecloude
+  hosts: promepheus
+  become: True
+  tasks:
+
+    - name: install aplications
+      apt:
+         name: "{{ item }}"
+         state: present
+         update_cache: yes
+      loop:
+        - mc
+        - net-tools
+        - python3-pip
+
+    - name: Docker pip
+      pip:
+        name: docker
+
+    - name: role Docker
+      include_role:
+        name: geerlingguy.docker
+
+    - name: install Portainer
+      docker_container:
+        name: Portainer
+        image: portainer/portainer
+        ports:
+          - "9000:9000"
+          - "8000:8000"
+          - "9443:9443"
+        state: started
+        restart_policy: always
+
+    - name: Prometheus
+      docker_container:
+        name: Prometheus
+        image: ubuntu/prometheus 
+        ports:
+          - "9090:9090"
+        state: started
+        restart_policy: always
+        env:
+          TZ: UTC
+
+    - name: Graphana volume
+      docker_volume:
+        name: graphana
+
+    - name: Graphana
+      docker_container:
+        name: grafana
+        image: grafana/grafana
+        ports:
+          - "3000:3000"
+        state: started
+        restart_policy: always
+        volumes:
+          - graphana:/var/lib/grafana
+
