@@ -36,11 +36,13 @@
     - name: Prometheus
       docker_container:
         name: Prometheus
-        image: ubuntu/prometheus 
+        image: ubuntu/prometheus
         ports:
           - "9090:9090"
         state: started
         restart_policy: always
+        volumes:
+          - /etc/prometheus/:/etc/prometheus/
         env:
           TZ: UTC
 

@@ -1,0 +1,6 @@
+---
+  - name: Node Exporter for Prometheus
+    hosts: fm
+    become: True
+    roles:
+      - role: cloudalchemy.node_exporter
