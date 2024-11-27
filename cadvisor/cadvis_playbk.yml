@@ -1,0 +1,23 @@
+---
+- name: Cadvisor for docker
+  hosts: fm
+  become: True
+  tasks:
+
+    - name: Create docker container
+      docker_container:
+        name: cadvisor
+        restart_policy: always
+        state: started
+        ports:
+          - "8888:8080"
+        privileged: yes
+        image: gcr.io/cadvisor/cadvisor:v0.51.0
+        devices:
+          - /dev/kmsg
+        volumes:
+          - /:/rootfs:ro
+          - /var/run:/var/run:ro
+          - /sys:/sys:ro
+          - /var/lib/docker/:/var/lib/docker:ro
+          - /dev/disk/:/dev/disk:ro
