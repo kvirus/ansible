@@ -20,7 +20,7 @@ client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
 #bot = telebot.TeleBot('5388668812:AAFiSusMexQ5fO9mkxpUjp20uje-q') #Основной БОТ
 
-bot = telebot.TeleBot('5800064216:AAFWd0BnsgM9MH94ppPZKU9plisU0L') #Запасной бот
+bot = telebot.TeleBot('5800064216:AAFWd0BnsgM9MH94ppPZKU9plisU0L9K_2k') #Запасной бот
 
 #Верхний уровень клавиатуры (выбор раздела)
 
