@@ -1,0 +1,44 @@
+---
+- name: Mikrot Install
+  hosts: cloud
+  become: True
+
+  tasks:
+    - name: Create network for Mikrot
+      docker_network:
+        name: mikrotik
+        driver: bridge
+        state: present
+
+#    - name: Create network2 for Mikrot
+#      docker_network:
+#        name: mikrotik2
+#        driver: bridge
+#        state: present
+
+
+    - name: Deploy container
+      docker_container:
+        name: mikrotik
+        image: cnsoluciones/mikrotik:7.6
+        state: started
+        restart_policy: always
+        capabilities:
+          - NET_ADMIN
+        devices:
+          - "/dev/net/tun:/dev/net/tun"
+        ports:
+            #- "21:21" #ftp
+            #- "22:22" #ssh
+            #- "23:23" #telnet
+            #- "80:80" #www
+            #- "443:443" #www-ssl
+            - "1194:1194" #OVPN
+            - "1450:1450" #L2TP
+            - "8291:8291" #winbox
+            #- "8728:8728" #api
+            #- "8729:8729" #api-ssl
+            #- "13231:13231" #WireGuard
+        networks:
+          - name: mikrotik
+#          - name: mikrotik2
