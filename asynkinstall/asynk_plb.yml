@@ -1,0 +1,27 @@
+---
+- name: Asynk install 
+  hosts: fm
+  become: true
+  tasks:
+    - name: install mc asynk
+      command: "apt install mc"
+      async: 1000
+      poll: 0
+      register: mc
+
+    - name: install net-tools
+      command: "apt install net-tools"
+      async: 1000
+      poll: 0
+      register: nettools
+
+    - name: Check status
+      async_status:
+        jid: "{{ item }}"
+      loop:
+        - "{{ mc.ansible_job_id  }}"
+        - "{{ nettools.ansible_job_id }}"
+      register: async_status_results
+      until: async_status_results.finished
+      retries: 10
+      delay: 1
