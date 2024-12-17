@@ -3,5 +3,5 @@
   hosts: runners
   become: yes
   roles:
-    - role: waal70.docker
+    - role: geerlingguy.docker
       ignore_errors: yes

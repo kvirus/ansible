@@ -9,11 +9,17 @@
       poll: 0
       register: mc
 
+    - debug:
+        var: mc
+
     - name: install net-tools
       command: "apt install net-tools"
       async: 1000
       poll: 0
       register: nettools
+
+    - debug:
+        var: nettools
 
     - name: Check status
       async_status:

@@ -1,0 +1,11 @@
+---
+- name: Preinstall Linux
+  hosts: fm
+  become: true
+  tasks:
+    - name: Install needed programs
+      apt:
+        name:
+          - mc
+          - net-tools
+        state: present

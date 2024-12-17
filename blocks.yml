@@ -15,6 +15,7 @@
         - nmon
         - htop
         - net-tools
+        - iotop
 
     - name: create folder
       command: mkdir /home/newdir

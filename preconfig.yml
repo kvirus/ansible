@@ -1,0 +1,22 @@
+- name: test blocks
+  hosts: fm
+  become: yes
+
+  vars:
+
+  tasks:
+  - name: Install
+    apt:
+      name:
+        - tree
+        - nmon
+        - htop
+        - net-tools
+        - iotop
+        - curl
+        - wget
+        - python3-pip
+  - name: Доп пакеты
+    pip:
+      name: docker
+      state: present
