@@ -16,6 +16,7 @@
         - curl
         - wget
         - python3-pip
+        - sysstat
   - name: Доп пакеты
     pip:
       name: docker
